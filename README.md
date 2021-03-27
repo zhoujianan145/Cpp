@@ -1,2 +1,2 @@
 # Cpp
-c++学习
+cpp learning
