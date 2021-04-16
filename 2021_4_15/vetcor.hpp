@@ -183,6 +183,7 @@ namespace zjn
 			return pos;
 		}
 		//返回的pos的下一个位置(挪前来了)
+		// 1 2 3 
 		iterator erase(iterator pos)
 		{
 			assert(pos < _finish && pos >= _start);
