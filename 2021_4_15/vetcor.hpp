@@ -2,6 +2,7 @@
 #include<iostream>
 #include<assert.h>
 #include<algorithm>
+#include<string>
 namespace zjn
 {
 	template <class T>
@@ -13,6 +14,7 @@ namespace zjn
 		typedef const T* const_iterator;
 		iterator begin()
 		{
+			
 			return _start;
 		}
 		iterator end()
@@ -21,6 +23,7 @@ namespace zjn
 		}
 		const_iterator begin()const
 		{
+			
 			return _start;
 		}
 		const_iterator end()const
@@ -52,7 +55,7 @@ namespace zjn
 				first++;
 			}
 		}
-		//¿½±´¹¹Ôì£¬ÏÖ´úĞ´·¨
+		//æ‹·è´æ„é€ ï¼Œç°ä»£å†™æ³•
 		vector(const vector<T>& v)
 			:_start(nullptr)
 			, _finish(nullptr)
@@ -61,7 +64,7 @@ namespace zjn
 			vector<T> temp(v.begin(), v.end());
 			swap(temp);
 		}
-		//¸³ÖµÖØÔØ£¬ÏÖ´úĞ´·¨
+		//èµ‹å€¼é‡è½½ï¼Œç°ä»£å†™æ³•
 		vector<T>& operator=(vector<T> v)
 		{
 			swap(v);
@@ -92,14 +95,14 @@ namespace zjn
 			assert(pos < size());
 			return _start[pos];
 		}
-		//À©Èİ
+		//æ‰©å®¹
 		void reserve(size_t n)
 		{
 			if (n > capacity())
 			{
 				T* temp = new T[n];
 
-				//memcpy(temp,_start,sizeof(T)*size());memcpyÎªÇ³¿½±´¡£vector<int>Ã»ÓĞÎÊÌâ£¬vector<string>Îö¹¹µÄÊ±ºò»á±¨´í
+				//memcpy(temp,_start,sizeof(T)*size());memcpyä¸ºæµ…æ‹·è´ã€‚vector<int>æ²¡æœ‰é—®é¢˜ï¼Œvector<string>ææ„çš„æ—¶å€™ä¼šæŠ¥é”™
 				for (size_t i = 0; i < size(); i++)
 				{
 					temp[i] = _start[i];
@@ -109,27 +112,27 @@ namespace zjn
 				
 				_start = temp;
 				_finish = _start + oldsize;
-				//_finish = _start + size();´ËÊ±²»ÄÜµ÷ÓÃsize()£¬finsh»¹ÔÚÖ¸ÏòÄÇ¿éÊÍ·ÅµÄ¿Õ¼ä
+				//_finish = _start + size();æ­¤æ—¶ä¸èƒ½è°ƒç”¨size()ï¼Œfinshè¿˜åœ¨æŒ‡å‘é‚£å—é‡Šæ”¾çš„ç©ºé—´
 				_end_of_stage = _start + n;
 			}
 		}
-		//À©Èİ+³õÊ¼»¯£¬ËõĞ¡size
-		//resize¸øÁË¸öÈ±Ê¡Öµ£¬ÒòÎªÊÇÄäÃû¶ÔÏó£¬ËùÒÔÒª´øconst
+		//æ‰©å®¹+åˆå§‹åŒ–ï¼Œç¼©å°size
+		//resizeç»™äº†ä¸ªç¼ºçœå€¼ï¼Œå› ä¸ºæ˜¯åŒ¿åå¯¹è±¡ï¼Œæ‰€ä»¥è¦å¸¦const
 		void resize(size_t n, const T& x=T())
 		{
-			//¼ÙÈç²»¹»¾Í»áÀ©Èİ
+			//å‡å¦‚ä¸å¤Ÿå°±ä¼šæ‰©å®¹
 			if (n > capacity())
 			{
 				reserve(n);
 			}
-			//¼ÙÈçn<size()£¬¾ÍËõĞ¡¿Õ¼ä
+			//å‡å¦‚n<size()ï¼Œå°±ç¼©å°ç©ºé—´
 			if (n < size())
 			{
 				_finish = _start + n;
 			}
 			else{
 
-			   //¼ÙÈçn>size()¾Í°Ñx¸³Öµ½øÈ¥
+			   //å‡å¦‚n>size()å°±æŠŠxèµ‹å€¼è¿›å»
 				while (_finish != _start + n)
 				{
 					*_finish = x;
@@ -155,15 +158,16 @@ namespace zjn
 		}
 		void pop_back()
 		{
-			--_finish;
-			return 0;
+			
+			erase(_finish-1);
+			
 		}
-		//²ÎÊıÊÇµü´úÆ÷£¬ÅäºÏfindÊ¹ÓÃ
+		//å‚æ•°æ˜¯è¿­ä»£å™¨ï¼Œé…åˆfindä½¿ç”¨
 		iterator insert(iterator pos, const T& x)
 		{
 			assert(pos<=_finish && pos>=_start);
-			//¼ÙÈçÀ©Èİ»áÒıÆğµü´úÆ÷Ê§Ğ§£¬ÔöÈİÖØ¿ªÒ»¶Î¿Õ¼ä£¬µ¼ÖÂpos»¹ÔÚÖ¸ÏòÊÍ·ÅµÄ¿Õ¼ä
-			//ÌáÇ°¼ÇÂ¼posiµÄÖµ£¬À©ÈİµÄ»°ÈÃ_start+posi¾ÍÓÖÕÒµ½ÁËposµÄÎ»ÖÃ
+			//å‡å¦‚æ‰©å®¹ä¼šå¼•èµ·è¿­ä»£å™¨å¤±æ•ˆï¼Œå¢å®¹é‡å¼€ä¸€æ®µç©ºé—´ï¼Œå¯¼è‡´posè¿˜åœ¨æŒ‡å‘é‡Šæ”¾çš„ç©ºé—´
+			//æå‰è®°å½•posiçš„å€¼ï¼Œæ‰©å®¹çš„è¯è®©_start+posiå°±åˆæ‰¾åˆ°äº†posçš„ä½ç½®
 			size_t posi = pos - _start;
 			check_capacity();
 			
@@ -178,17 +182,18 @@ namespace zjn
 			++_finish;
 			return pos;
 		}
-		//·µ»ØµÄposµÄÏÂÒ»¸öÎ»ÖÃ(Å²Ç°À´ÁË)
+		//è¿”å›çš„posçš„ä¸‹ä¸€ä¸ªä½ç½®(æŒªå‰æ¥äº†)
+		// 1 2 3 
 		iterator erase(iterator pos)
 		{
 			assert(pos < _finish && pos >= _start);
 			iterator it=pos+1;
-			while (it != finish)
+			while (it != _finish)
 			{
 				*(it - 1) = *it;
 				it++;
 			}
-			--finish;
+			--_finish;
 			return pos;
 		}
 	private:
